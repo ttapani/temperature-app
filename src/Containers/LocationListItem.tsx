@@ -60,21 +60,25 @@ class LocationListItem extends Component<IProps> {
         super(props);
     }
 
+    formatTemperature = (temperature: number): string => {
+        let formatted = temperature.toFixed(1).toString();
+        if(temperature > 0) {
+            formatted = '+' + formatted;
+        }
+        formatted = formatted.replace('.', ',');
+        formatted = formatted + ' °C';
+        return formatted;
+    }
+
     render() {
         const { classes, location, onFavouriteClicked, isFavourite } = this.props;
-        let temperature = location.temperature.toFixed(1).toString();
-        if(location.temperature > 0) {
-            temperature = '+' + temperature;
-        }
-        temperature = temperature.replace('.', ',');
-        temperature = temperature + ' °C';
         return (
             <ListItem>
                 <Paper className={classes.root} elevation={1}>
                     <ListItemText className={classes.locationText} primary={location.name}/>
                     {/* <ListItemText className={classNames(classes.temperatureText, { [classes.temperatureWarm]: true, })} primary={location.temperature}/> */}
                     <div
-                        className={classNames(classes.temperatureText, { [classes.temperatureWarm]: this.props.location.temperature > 0, [classes.temperatureCold]: this.props.location.temperature <= 0 })}>{temperature}
+                        className={classNames(classes.temperatureText, { [classes.temperatureWarm]: this.props.location.temperature > 0, [classes.temperatureCold]: this.props.location.temperature <= 0 })}>{this.formatTemperature(location.temperature)}
                     </div>
                     <ListItemIcon>
                         <Tooltip title={isFavourite ? 'Unfavourite' : 'Favourite'} aria-label='Favourite' >
