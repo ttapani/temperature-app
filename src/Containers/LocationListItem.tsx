@@ -6,6 +6,7 @@ import FavoriteBorderOutlined from '@material-ui/icons/FavoriteBorderOutlined';
 import Favorite from '@material-ui/icons/Favorite';
 import Tooltip from '@material-ui/core/Tooltip';
 import { Temperature } from '../store/temperature/types';
+import classNames from 'classnames';
 
 
 interface IProps extends WithStyles<typeof styles> {
@@ -22,13 +23,27 @@ const styles = (theme: Theme) => createStyles({
         alignItems: 'center',
         width: '100%',
     },
-    text: {
+    locationText: {
         marginLeft: 8,
-        flex: 1,
+        flexShrink: 1,
+        minWidth: 100,
+    },
+    temperatureText: {
+        margin: 8,
+        flexGrow: 1,
+        fontSize: 50,
+        textAlign: 'center',
+    },
+    temperatureWarm: {
+        color: 'red',
+    },
+    temperatureCold: {
+        color: 'blue',
     },
     iconButton: {
         padding: 8,
-        marginRight: -8
+        marginRight: -8,
+        minWidth: 50,
     }
 });
 
@@ -44,16 +59,25 @@ class LocationListItem extends Component<IProps> {
 
     render() {
         const { classes, location, onFavouriteClicked, isFavourite } = this.props;
+        let temperature = location.temperature.toFixed(1).toString();
+        if(location.temperature > 0) {
+            temperature = '+' + temperature;
+        }
+        temperature = temperature.replace('.', ',');
         return (
             <ListItem>
                 <Paper className={classes.root} elevation={1}>
-                    <ListItemText className={classes.text} primary={location.name + ' ' + location.temperature}/>
+                    <ListItemText className={classes.locationText} primary={location.name}/>
+                    {/* <ListItemText className={classNames(classes.temperatureText, { [classes.temperatureWarm]: true, })} primary={location.temperature}/> */}
+                    <div
+                        className={classNames(classes.temperatureText, { [classes.temperatureWarm]: this.props.location.temperature > 0, [classes.temperatureCold]: this.props.location.temperature <= 0 })}>{temperature}
+                    </div>
                     <ListItemIcon>
-                    <Tooltip title={isFavourite ? 'Unfavourite' : 'Favourite'} aria-label='Favourite' >
-                        <IconButton className={classes.iconButton} onClick={() => onFavouriteClicked(location)}>
-                            {this.props.isFavourite ? <Favorite/> : <FavoriteBorderOutlined />}
-                        </IconButton>
-                    </Tooltip>
+                        <Tooltip title={isFavourite ? 'Unfavourite' : 'Favourite'} aria-label='Favourite' >
+                            <IconButton className={classes.iconButton} onClick={() => onFavouriteClicked(location)}>
+                                {this.props.isFavourite ? <Favorite/> : <FavoriteBorderOutlined />}
+                            </IconButton>
+                        </Tooltip>
                     </ListItemIcon>
                 </Paper>
             </ListItem>
