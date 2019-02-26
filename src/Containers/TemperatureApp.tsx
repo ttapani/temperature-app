@@ -55,14 +55,16 @@ class TemperatureApp extends Component<Props, IState> {
     render() {
         return (
                 <div className="App">
-                    <div className="App-header">
-                        <LocationSearch onChangeHandler={debounce(this.handleSearchInputChanged, 500)} onCancelSearch={() => this.props.clearTemperature()} />
-                        <List style={{ width: '60vh' }}>
-                            {this.props.data.map(row => <LocationListItem key={row.id} location={row} onFavouriteClicked={this.handleItemFavouriteClicked}/>)}
-                        </List>
-                        <List style={{ width: '60vh' }}>
-                            {this.props.favourites.map(row => <LocationListItem key={row.id} location={row} isFavourite={true} onFavouriteClicked={this.handleItemFavouriteClicked}/>)}
-                        </List>
+                    <div className="App-base">
+                        <div style={{ display: 'flex', maxWidth: 1500, flexGrow: 1, flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '100vh' }} >
+                            <LocationSearch onChangeHandler={debounce(this.handleSearchInputChanged, 500)} onCancelSearch={() => this.props.clearTemperature()} />
+                            <List style={{  }}>
+                                {this.props.data.map(row => <LocationListItem key={row.id} location={row} onFavouriteClicked={this.handleItemFavouriteClicked}/>)}
+                            </List>
+                            <List style={{  }}>
+                                {this.props.favourites.map(row => <LocationListItem key={row.id} location={row} isFavourite={true} onFavouriteClicked={this.handleItemFavouriteClicked}/>)}
+                            </List>
+                        </div>
                     </div>
                 </div>
             );
