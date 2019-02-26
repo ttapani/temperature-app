@@ -56,7 +56,7 @@ class TemperatureApp extends Component<Props, IState> {
         return (
                 <div className="App">
                     <div className="App-header">
-                        <LocationSearch onChangeHandler={debounce(this.handleSearchInputChanged, 500)} />
+                        <LocationSearch onChangeHandler={debounce(this.handleSearchInputChanged, 500)} onCancelSearch={() => this.props.clearTemperature()} />
                         <List style={{ width: '60vh' }}>
                             {this.props.data.map(row => <LocationListItem key={row.id} location={row} onFavouriteClicked={this.handleItemFavouriteClicked}/>)}
                         </List>
