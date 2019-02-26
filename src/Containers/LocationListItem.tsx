@@ -27,12 +27,15 @@ const styles = (theme: Theme) => createStyles({
         marginLeft: 8,
         flexShrink: 1,
         minWidth: 100,
+        maxWidth: 100,
     },
     temperatureText: {
         margin: 8,
         flexGrow: 1,
-        fontSize: 50,
-        textAlign: 'center',
+        fontSize: 40,
+        textAlign: 'right',
+        minWidth: 150,
+        textOverflow: 'ellipsis',
     },
     temperatureWarm: {
         color: 'red',
@@ -64,6 +67,7 @@ class LocationListItem extends Component<IProps> {
             temperature = '+' + temperature;
         }
         temperature = temperature.replace('.', ',');
+        temperature = temperature + ' °C';
         return (
             <ListItem>
                 <Paper className={classes.root} elevation={1}>
