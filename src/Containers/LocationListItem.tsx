@@ -76,7 +76,6 @@ class LocationListItem extends Component<IProps> {
             <ListItem>
                 <Paper className={classes.root} elevation={1}>
                     <ListItemText className={classes.locationText} primary={location.name}/>
-                    {/* <ListItemText className={classNames(classes.temperatureText, { [classes.temperatureWarm]: true, })} primary={location.temperature}/> */}
                     <div
                         className={classNames(classes.temperatureText, { [classes.temperatureWarm]: this.props.location.temperature > 0, [classes.temperatureCold]: this.props.location.temperature <= 0 })}>{this.formatTemperature(location.temperature)}
                     </div>
