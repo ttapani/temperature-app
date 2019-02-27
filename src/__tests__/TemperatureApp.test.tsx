@@ -1,21 +1,6 @@
 import fetchMock from 'fetch-mock';
 import puppeteer from 'puppeteer';
 
-const weatherResponse = {
-    id: 1337,
-    name: 'Mordor',
-    main: {
-        temp: 80,
-    }
-}
-
-class MockWeatherApi {
-    mockWeatherData () {
-        fetchMock.get('http://api.openweathermap.org/data/2.5/weather', weatherResponse)
-    }
-}
-
-export const mockWeatherApi = new MockWeatherApi();
 
 const initPuppeteer = async() => {
     let browser = await puppeteer.launch();
@@ -40,16 +25,16 @@ describe('Temperature app', () => {
         await page.waitForSelector('#search-input');
         
         await page.click('#search-input');
-        await page.type('#search-input', 'Budapest');
+        await page.type('#search-input', 'Tampere');
 
         await page.waitForSelector('#location-name');
         const name = await page.$eval('#location-name', element => element.firstChild!.textContent);
-        expect(name).toBe('Budapest');
+        expect(name).toBe('Tampere');
         
         await page.click('#favourite-button');
         await page.waitForSelector('#favourites-list');
         const favourite = await page.$eval('#favourites-list #location-name', element => element.textContent);
-        expect(favourite).toBe('Budapest');
+        expect(favourite).toBe('Tampere');
 
         browser.close();
     }, 16000);
@@ -62,16 +47,49 @@ describe('Temperature app', () => {
         await page.waitForSelector('#search-input');
         
         await page.click('#search-input');
-        await page.type('#search-input', 'Budapest');
+        await page.type('#search-input', 'Tampere');
 
         await page.waitForSelector('#location-name');
         const name = await page.$eval('#location-name', element => element.firstChild!.textContent);
-        expect(name).toBe('Budapest');
+        expect(name).toBe('Tampere');
         
         await page.click('#favourite-button');
         await page.waitForSelector('#favourites-list');
         const favourite = await page.$eval('#favourites-list li:first-child #location-name', element => element.textContent);
-        expect(favourite).toBe('Budapest');
+        expect(favourite).toBe('Tampere');
+
+        browser.close();
+    }, 16000);
+
+    test('user can remove a favourite', async () => {
+        const instance = await initPuppeteer();
+        let { browser, page } = instance;
+        
+        await page.goto('http://localhost:3000/');
+        await page.waitForSelector('#search-input');
+        
+        await page.click('#search-input');
+        await page.type('#search-input', 'Tampere');
+
+        await page.waitForSelector('#location-name');
+        const name = await page.$eval('#location-name', element => element.firstChild!.textContent);
+        expect(name).toBe('Tampere');
+        
+        await page.click('#favourite-button');
+        await page.waitForSelector('#favourites-list');
+        const favourite = await page.$eval('#favourites-list li:first-child #location-name', element => element.textContent);
+        expect(favourite).toBe('Tampere');
+
+        await page.click('#favourite-button');
+        await page.waitForSelector('#favourites-list');
+        let empty = null;
+        try {
+            empty = await page.$eval('#favourites-list li:first-child #location-name', element => element.textContent);
+        }
+        catch (e) {
+            
+        }
+        expect(empty).toBeNull();
 
         browser.close();
     }, 16000);
