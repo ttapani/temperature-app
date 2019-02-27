@@ -60,7 +60,7 @@ export const getTemperature = (id: string, cancelRequest?: () => boolean): Thunk
     return async (dispatch: ThunkDispatch<TemperatureState, {}, TemperatureDataAction>, getState): Promise<void> => {
         return new Promise<void>((resolve, reject) => {
             dispatch(getTemperatureStarted(id))
-            const response = fetch(`http://api.openweathermap.org/data/2.5/weather?q=${id}&APPID=eb4836697d2cdb9246701fb7a78ba3a5&units=metric`);
+            const response = fetch(`${process.env.REACT_APP_REQUEST_URL}?q=${id}&APPID=${process.env.REACT_APP_API_KEY}&units=metric`);
             response.then((response) => {
                 if(response.status === 200) {
                     return response.json();
