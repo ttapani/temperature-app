@@ -105,7 +105,7 @@ const mapStateToProps = (state: TemperatureState): IStateProps => ({ data: state
 const mapDispatchToProps = (dispatch: ThunkDispatch<TemperatureState, {}, TemperatureAction>): IDispatchProps => {
     return {
         getTemperature: async(id: string, cancelRequest?: () => boolean) => {
-            await dispatch(getTemperature(id, cancelRequest))
+            await dispatch(getTemperature(id, false, cancelRequest))
         }
     }
 }

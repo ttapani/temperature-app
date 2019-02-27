@@ -48,20 +48,14 @@ export interface UpdateFavouritesAction extends Action {
     type: 'temperature/UPDATE';
 }
 
-export interface AddFavouriteAction extends Action {
-    type: 'temperature/ADD_FAVOURITE';
+export interface ToggleFavouriteAction extends Action {
+    type: 'temperature/TOGGLE_FAVOURITE';
     payload: {
-        location: Temperature;
+        id: number;
     };
 }
 
-export interface RemoveFavouriteAction extends Action {
-    type: 'temperature/REMOVE_FAVOURITE';
-    payload: {
-        location: Temperature;
-    };
-}
 
 export type TemperatureDataAction = GetTemperatureAction | GetTemperatureSuccessAction | GetTemperatureCancelAction | TemperatureClearAction | GetTemperatureFailureAction;
-export type TemperatureFavouriteAction = AddFavouriteAction | RemoveFavouriteAction | UpdateFavouritesAction;
+export type TemperatureFavouriteAction = ToggleFavouriteAction | UpdateFavouritesAction;
 export type TemperatureAction = TemperatureDataAction | TemperatureFavouriteAction;

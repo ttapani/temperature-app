@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import '../App.css';
 import { Temperature, TemperatureState, TemperatureAction } from '../store/temperature/types';
-import { getTemperature, clearTemperature, addFavourite, removeFavourite, updateFavourites } from '../store/temperature/actions';
+import { getTemperature, clearTemperature, toggleFavourite, updateFavourites } from '../store/temperature/actions';
 import { connect } from 'react-redux';
 import { ThunkDispatch } from 'redux-thunk';
 import List from '@material-ui/core/List';
@@ -23,8 +23,7 @@ interface IStateProps {
 interface IDispatchProps {
     getTemperature: (id: string, cancelRequest?: () => boolean) => void;
     clearTemperature: () => void;
-    addFavourite: (location: Temperature) => void;
-    removeFavourite: (location: Temperature) => void;
+    toggleFavourite: (id: number) => void;
     updateFavourites: () => void;
 }
 
@@ -42,6 +41,7 @@ class TemperatureApp extends Component<Props, IState> {
     }
 
     componentDidMount() {
+        this.props.clearTemperature();
         this.setState({ updateTimer: setInterval(() => this.props.updateFavourites(), 15000) });
     }
 
@@ -53,11 +53,11 @@ class TemperatureApp extends Component<Props, IState> {
     }
 
     handleItemFavouriteClicked = (location: Temperature) => {
-        if(this.props.favourites.includes(location)) {
-            this.props.removeFavourite(location);
-        } else {
-            this.props.addFavourite(location);
+        if(location.favourite) {
+            this.props.toggleFavourite(location.id);
             this.props.clearTemperature();
+        } else {
+            this.props.toggleFavourite(location.id);
         }
     }
 
@@ -85,16 +85,13 @@ const mapStateToProps = (state: TemperatureState): IStateProps => ({ data: state
 const mapDispatchToProps = (dispatch: ThunkDispatch<TemperatureState, {}, TemperatureAction>): IDispatchProps => {
     return {
         getTemperature: async(id: string, cancelRequest?: () => boolean) => {
-            await dispatch(getTemperature(id, cancelRequest))
+            await dispatch(getTemperature(id, false, cancelRequest))
         },
         clearTemperature: () => {
             dispatch(clearTemperature())
         },
-        addFavourite: (location: Temperature) => {
-            dispatch(addFavourite(location))
-        },
-        removeFavourite: (location: Temperature) => {
-            dispatch(removeFavourite(location))
+        toggleFavourite: (id: number) => {
+            dispatch(toggleFavourite(id))
         },
         updateFavourites: () => {
             dispatch(updateFavourites())

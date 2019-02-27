@@ -1,5 +1,5 @@
 import { Reducer } from 'redux';
-import { TemperatureState, TemperatureAction, Temperature, AddFavouriteAction } from './types'; 
+import { TemperatureState, TemperatureAction, Temperature, ToggleFavouriteAction } from './types'; 
 
 
 export const initialState: TemperatureState = {
@@ -15,22 +15,20 @@ const temperatureReducer: Reducer<TemperatureState> = (state: TemperatureState =
             return { ...state, data: updateOrAddObjectInArray(state.data, action.payload.data), isLoading: false };
         case 'temperature/GET_CANCEL':
             return { ...state, isLoading: false };
-        case 'temperature/CLEAR':
-            return { ...state, data: state.data.filter(loc => loc.favourite) };
         case 'temperature/GET_FAILURE':
             return { ...state, error: action.payload.error, isLoading: false };
-        case 'temperature/ADD_FAVOURITE':
-            return { ...state, data: addFavouriteLocation(state, action as AddFavouriteAction) };
-        case 'temperature/REMOVE_FAVOURITE':
-            return { ...state, data: state.data.filter(favourite => favourite.id !== action.payload.location.id) };
+        case 'temperature/CLEAR':
+            return { ...state, data: state.data.filter(loc => loc.favourite) };
+        case 'temperature/TOGGLE_FAVOURITE':
+            return { ...state, data: toggleFavourite(state, action as ToggleFavouriteAction) };
         default:    
             return state;
         }
 };
 
-const addFavouriteLocation = (state: TemperatureState, action: AddFavouriteAction) => {
+const toggleFavourite = (state: TemperatureState, action: ToggleFavouriteAction) => {
     const { data } = state;
-    const { id } = action.payload.location;
+    const { id } = action.payload;
     return data.map(location => (location.id === id) ? {...location, favourite: !location.favourite } : location );
 };
 
