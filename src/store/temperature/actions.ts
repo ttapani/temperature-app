@@ -1,8 +1,9 @@
 import { ActionCreator } from 'redux';
 import { Temperature, TemperatureState, TemperatureDataAction } from './types';
 import { GetTemperatureAction, GetTemperatureSuccessAction, GetTemperatureCancelAction, GetTemperatureFailureAction, TemperatureClearAction } from './types';
-import { AddFavouriteAction, RemoveFavouriteAction } from './types';
+import { AddFavouriteAction, RemoveFavouriteAction, UpdateFavouritesAction } from './types';
 import { ThunkAction, ThunkDispatch } from 'redux-thunk';
+import moment from 'moment';
 
 
 export const getTemperatureStarted: ActionCreator<GetTemperatureAction> = (id: number) => ({
@@ -74,7 +75,7 @@ export const getTemperature = (id: string, cancelRequest?: () => boolean): Thunk
                     cancelled = cancelRequest();
                 }
                 if(data && !cancelled) {
-                    dispatch(getTemperatureSuccess({ id: data.id, name: data.name, temperature: data.main.temp}));
+                    dispatch(getTemperatureSuccess({ id: data.id, name: data.name, temperature: data.main.temp, lastUpdated: Date.now() }));
                 } else {
                     dispatch(getTemperatureCancel());
                 }
@@ -83,6 +84,19 @@ export const getTemperature = (id: string, cancelRequest?: () => boolean): Thunk
                 dispatch(getTemperatureFailure(error));
                 resolve();
             });
+        });
+    };
+};
+
+export const updateFavourites = (): ThunkAction<Promise<void>, TemperatureState, {}, UpdateFavouritesAction> => {
+    return async (dispatch: ThunkDispatch<TemperatureState, {}, UpdateFavouritesAction>, getState): Promise<void> => {
+        return new Promise<void>((resolve, reject) => {
+            let state = getState();
+            state.data.forEach(location => {
+                if(moment(location.lastUpdated).add(1, 'm').isBefore(moment())) {
+                    dispatch(getTemperature(location.name));
+                }
+            })
         });
     };
 };

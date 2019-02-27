@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 import '../App.css';
 import { Temperature, TemperatureState, TemperatureAction } from '../store/temperature/types';
-import { getTemperature, clearTemperature, addFavourite, removeFavourite } from '../store/temperature/actions';
+import { getTemperature, clearTemperature, addFavourite, removeFavourite, updateFavourites } from '../store/temperature/actions';
 import { connect } from 'react-redux';
 import { ThunkDispatch } from 'redux-thunk';
 import List from '@material-ui/core/List';
 import LocationSearch from './LocationSearch';
 import LocationListItem from './LocationListItem';
 import debounce from 'lodash/debounce';
+import { getFavouriteLocations, getSearchResultLocations } from '../store/temperature/selectors';
 
 
 interface IProps {
@@ -16,6 +17,7 @@ interface IProps {
 interface IStateProps {
     data: Temperature[];
     favourites: Temperature[];
+    searchResults: Temperature[];
 }
 
 interface IDispatchProps {
@@ -23,10 +25,12 @@ interface IDispatchProps {
     clearTemperature: () => void;
     addFavourite: (location: Temperature) => void;
     removeFavourite: (location: Temperature) => void;
+    updateFavourites: () => void;
 }
 
 interface IState {
     timeout?: NodeJS.Timeout;
+    updateTimer?: NodeJS.Timeout;
 }
 
 type Props = IStateProps & IProps & IDispatchProps;
@@ -35,6 +39,10 @@ type Props = IStateProps & IProps & IDispatchProps;
 class TemperatureApp extends Component<Props, IState> {
     constructor(props: Props) {
         super(props);
+    }
+
+    componentDidMount() {
+        this.setState({ updateTimer: setInterval(() => this.props.updateFavourites(), 15000) });
     }
 
     handleSearchInputChanged = (value: string) => {
@@ -60,10 +68,10 @@ class TemperatureApp extends Component<Props, IState> {
                         <div style={{ display: 'flex', maxWidth: 1500, flexGrow: 1, flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '100vh' }} >
                             <LocationSearch onChangeHandler={debounce(this.handleSearchInputChanged, 500)} onCancelSearch={() => this.props.clearTemperature()} />
                             <List id={'search-list'} style={{  }}>
-                                {this.props.data.map(row => <LocationListItem key={row.id} location={row} onFavouriteClicked={this.handleItemFavouriteClicked}/>)}
+                                {this.props.searchResults.map(row => <LocationListItem key={row.id} location={row} isFavourite={row.favourite} onFavouriteClicked={this.handleItemFavouriteClicked}/>)}
                             </List>
                             <List id={'favourites-list'} style={{  }}>
-                                {this.props.favourites.map(row => <LocationListItem key={row.id} location={row} isFavourite={true} onFavouriteClicked={this.handleItemFavouriteClicked}/>)}
+                                {this.props.favourites.map(row => <LocationListItem key={row.id} location={row} isFavourite={row.favourite} onFavouriteClicked={this.handleItemFavouriteClicked}/>)}
                             </List>
                         </div>
                     </div>
@@ -72,7 +80,7 @@ class TemperatureApp extends Component<Props, IState> {
         }
     }
 
-const mapStateToProps = (state: TemperatureState): IStateProps => ({ data: state.data, favourites: state.favourites });
+const mapStateToProps = (state: TemperatureState): IStateProps => ({ data: state.data, favourites: getFavouriteLocations(state), searchResults: getSearchResultLocations(state) });
 
 const mapDispatchToProps = (dispatch: ThunkDispatch<TemperatureState, {}, TemperatureAction>): IDispatchProps => {
     return {
@@ -87,6 +95,9 @@ const mapDispatchToProps = (dispatch: ThunkDispatch<TemperatureState, {}, Temper
         },
         removeFavourite: (location: Temperature) => {
             dispatch(removeFavourite(location))
+        },
+        updateFavourites: () => {
+            dispatch(updateFavourites())
         }
     }
 }

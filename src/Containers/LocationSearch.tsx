@@ -35,7 +35,7 @@ export const styles = (theme: Theme) => createStyles({
         padding: '2px 4px',
         display: 'flex',
         alignItems: 'center',
-        width: '95%',
+        width: 300,
     },
     input: {
         marginLeft: 8,

@@ -1,10 +1,9 @@
 import { Reducer } from 'redux';
-import { TemperatureState, TemperatureAction, Temperature } from './types'; 
+import { TemperatureState, TemperatureAction, Temperature, AddFavouriteAction } from './types'; 
 
 
 export const initialState: TemperatureState = {
     data: [],
-    favourites: [],
     isLoading: false,
 };
 
@@ -17,19 +16,24 @@ const temperatureReducer: Reducer<TemperatureState> = (state: TemperatureState =
         case 'temperature/GET_CANCEL':
             return { ...state, isLoading: false };
         case 'temperature/CLEAR':
-            return { ...state, data: [] };
+            return { ...state, data: state.data.filter(loc => loc.favourite) };
         case 'temperature/GET_FAILURE':
             return { ...state, error: action.payload.error, isLoading: false };
         case 'temperature/ADD_FAVOURITE':
-            return { ...state, favourites: [...state.favourites, action.payload.location] };
+            return { ...state, data: addFavouriteLocation(state, action as AddFavouriteAction) };
         case 'temperature/REMOVE_FAVOURITE':
-            return { ...state, favourites: state.favourites.filter(favourite => favourite.id !== action.payload.location.id) };
+            return { ...state, data: state.data.filter(favourite => favourite.id !== action.payload.location.id) };
         default:    
             return state;
         }
 };
-    
-// This would be a cool case to use generics, but all our types would have to extend a type that always has id..
+
+const addFavouriteLocation = (state: TemperatureState, action: AddFavouriteAction) => {
+    const { data } = state;
+    const { id } = action.payload.location;
+    return data.map(location => (location.id === id) ? {...location, favourite: !location.favourite } : location );
+};
+
 const updateOrAddObjectInArray = (array: Temperature[], updatedItem: Temperature) => {
     const index = array.findIndex(item => item.id === updatedItem.id);
     if(index > -1) {

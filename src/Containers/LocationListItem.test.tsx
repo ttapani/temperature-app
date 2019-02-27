@@ -5,8 +5,8 @@ import { mount } from 'enzyme';
 import { Temperature } from '../store/temperature/types';
 
 
-const mockPositiveTempLocation: Temperature = { id: 1, name: 'Asd', temperature: 5 };
-const mockNegativeTempLocation: Temperature = { id: 1, name: 'Asd', temperature: -10 };
+const mockPositiveTempLocation: Temperature = { id: 1, name: 'Asd', temperature: 5, favourite: false };
+const mockNegativeTempLocation: Temperature = { id: 1, name: 'Asd', temperature: -10, favourite: true };
 const mockLocationItem = (location: Temperature) =>  <LocationListItem location={location} onFavouriteClicked={() => null} />;
 
 test('Item renders the location', () => {

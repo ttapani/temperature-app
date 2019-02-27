@@ -3,7 +3,6 @@ import { Action } from 'redux';
 
 export interface TemperatureState {
     data: Temperature[];
-    favourites: Temperature[];
     isLoading: boolean;
     error?: string;
 }
@@ -12,6 +11,8 @@ export interface Temperature {
     id: number;
     name: string;
     temperature: number;
+    lastUpdated?: number;
+    favourite: boolean;
 }
 
 export interface GetTemperatureAction extends Action {
@@ -43,6 +44,10 @@ export interface TemperatureClearAction extends Action {
     type: 'temperature/CLEAR';
 }
 
+export interface UpdateFavouritesAction extends Action {
+    type: 'temperature/UPDATE';
+}
+
 export interface AddFavouriteAction extends Action {
     type: 'temperature/ADD_FAVOURITE';
     payload: {
@@ -58,5 +63,5 @@ export interface RemoveFavouriteAction extends Action {
 }
 
 export type TemperatureDataAction = GetTemperatureAction | GetTemperatureSuccessAction | GetTemperatureCancelAction | TemperatureClearAction | GetTemperatureFailureAction;
-export type TemperatureFavouriteAction = AddFavouriteAction | RemoveFavouriteAction;
+export type TemperatureFavouriteAction = AddFavouriteAction | RemoveFavouriteAction | UpdateFavouritesAction;
 export type TemperatureAction = TemperatureDataAction | TemperatureFavouriteAction;

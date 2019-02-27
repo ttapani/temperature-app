@@ -16,7 +16,7 @@ const theme = createMuiTheme({
 });
 
 test('Renders a search bar', () => {
-    const locations: Temperature[] = [ { id: 1, name: 'Asd', temperature: 5 }, { id: 1, name: 'Asd', temperature: 5 }];
+    const locations: Temperature[] = [ { id: 1, name: 'Asd', temperature: 5, favourite: false }, { id: 1, name: 'Asd', temperature: 5, favourite: false }];
     const component = renderer.create(
         <MuiThemeProvider theme={theme}>
             <StyledLocationSearch isLoading={false} data={locations} getTemperature={() => null} onChangeHandler={() => null} onCancelSearch={() => null} />
