@@ -1,6 +1,6 @@
 ## React-web-lämpötilasovellus
 
-Node-js ympäristössäsi aja
+Node.js (+8.10) ympäristössäsi aja
 
 ### `yarn && yarn start`
 
