@@ -2,11 +2,11 @@
 
 exports[`Renders a search bar 1`] = `
 <div
-  className="MuiPaper-root-4 MuiPaper-elevation1-7 MuiPaper-rounded-5 LocationSearch-root-1"
+  className="MuiPaper-root-5 MuiPaper-elevation1-8 MuiPaper-rounded-6 LocationSearch-root-1"
 >
   <button
     aria-label="Search"
-    className="MuiButtonBase-root-37 MuiIconButton-root-31 LocationSearch-iconButton-3"
+    className="MuiButtonBase-root-38 MuiIconButton-root-32 LocationSearch-iconButton-3"
     disabled={false}
     onBlur={[Function]}
     onContextMenu={[Function]}
@@ -23,11 +23,11 @@ exports[`Renders a search bar 1`] = `
     type="button"
   >
     <span
-      className="MuiIconButton-label-36"
+      className="MuiIconButton-label-37"
     >
       <svg
         aria-hidden="true"
-        className="MuiSvgIcon-root-40"
+        className="MuiSvgIcon-root-41"
         focusable="false"
         role="presentation"
         viewBox="0 0 24 24"
@@ -42,15 +42,15 @@ exports[`Renders a search bar 1`] = `
       </svg>
     </span>
     <span
-      className="MuiTouchRipple-root-66"
+      className="MuiTouchRipple-root-67"
     />
   </button>
   <div
-    className="MuiInputBase-root-49 LocationSearch-input-2"
+    className="MuiInputBase-root-50 LocationSearch-input-2"
     onClick={[Function]}
   >
     <input
-      className="MuiInputBase-input-59"
+      className="MuiInputBase-input-60"
       id="search-input"
       onBlur={[Function]}
       onChange={[Function]}

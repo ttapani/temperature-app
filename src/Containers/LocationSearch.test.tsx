@@ -19,7 +19,7 @@ test('Renders a search bar', () => {
     const locations: Temperature[] = [ { id: 1, name: 'Asd', temperature: 5 }, { id: 1, name: 'Asd', temperature: 5 }];
     const component = renderer.create(
         <MuiThemeProvider theme={theme}>
-            <StyledLocationSearch data={locations} getTemperature={() => null} onChangeHandler={() => null} onCancelSearch={() => null} />
+            <StyledLocationSearch isLoading={false} data={locations} getTemperature={() => null} onChangeHandler={() => null} onCancelSearch={() => null} />
         </MuiThemeProvider>
         );
         let tree = component.toJSON();

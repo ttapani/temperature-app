@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import { ThunkDispatch } from 'redux-thunk';
 import SearchIcon from '@material-ui/icons/Search';
 import CancelIcon from '@material-ui/icons/Cancel';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 
 interface IProps extends WithStyles<typeof styles> {
@@ -15,6 +16,7 @@ interface IProps extends WithStyles<typeof styles> {
 
 interface IStateProps {
     data: Temperature[];
+    isLoading: boolean;
 }
 
 interface IDispatchProps {
@@ -42,6 +44,9 @@ export const styles = (theme: Theme) => createStyles({
     iconButton: {
         padding: 10,
     },
+    spinner: {
+        padding: 4,
+    }
 });
 
 
@@ -60,6 +65,13 @@ export class LocationSearch extends Component<Props, IState> {
     cancelSearch = (event: React.MouseEvent<HTMLButtonElement>) => {
         this.setState({ inputValue: '' });
         this.props.onCancelSearch();
+    }
+
+    renderProgress = () => {
+        const { classes, isLoading } = this.props;
+        if(isLoading) {
+            return <CircularProgress className={classes.spinner} />
+        }
     }
 
     renderCancel = () => {
@@ -81,13 +93,14 @@ export class LocationSearch extends Component<Props, IState> {
                     <SearchIcon />
                 </IconButton>
                 <InputBase id={'search-input'}value={this.state.inputValue} className={classes.input} placeholder="Search for locations" onChange={this.handleInputChange} />
+                {this.renderProgress()}
                 {this.renderCancel()}
             </Paper>
           );
     }
 }
 
-const mapStateToProps = (state: TemperatureState): IStateProps => ({ data: state.data });
+const mapStateToProps = (state: TemperatureState): IStateProps => ({ data: state.data, isLoading: state.isLoading });
 
 const mapDispatchToProps = (dispatch: ThunkDispatch<TemperatureState, {}, TemperatureAction>): IDispatchProps => {
     return {
