@@ -80,7 +80,7 @@ export class LocationSearch extends Component<Props, IState> {
                 <IconButton className={classes.iconButton} aria-label="Search">
                     <SearchIcon />
                 </IconButton>
-                <InputBase value={this.state.inputValue} className={classes.input} placeholder="Search for locations" onChange={this.handleInputChange} />
+                <InputBase id={'search-input'}value={this.state.inputValue} className={classes.input} placeholder="Search for locations" onChange={this.handleInputChange} />
                 {this.renderCancel()}
             </Paper>
           );

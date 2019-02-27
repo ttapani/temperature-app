@@ -49,6 +49,7 @@ class TemperatureApp extends Component<Props, IState> {
             this.props.removeFavourite(location);
         } else {
             this.props.addFavourite(location);
+            this.props.clearTemperature();
         }
     }
 
@@ -58,10 +59,10 @@ class TemperatureApp extends Component<Props, IState> {
                     <div className="App-base">
                         <div style={{ display: 'flex', maxWidth: 1500, flexGrow: 1, flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '100vh' }} >
                             <LocationSearch onChangeHandler={debounce(this.handleSearchInputChanged, 500)} onCancelSearch={() => this.props.clearTemperature()} />
-                            <List style={{  }}>
+                            <List id={'search-list'} style={{  }}>
                                 {this.props.data.map(row => <LocationListItem key={row.id} location={row} onFavouriteClicked={this.handleItemFavouriteClicked}/>)}
                             </List>
-                            <List style={{  }}>
+                            <List id={'favourites-list'} style={{  }}>
                                 {this.props.favourites.map(row => <LocationListItem key={row.id} location={row} isFavourite={true} onFavouriteClicked={this.handleItemFavouriteClicked}/>)}
                             </List>
                         </div>

@@ -51,6 +51,7 @@ exports[`Renders a search bar 1`] = `
   >
     <input
       className="MuiInputBase-input-59"
+      id="search-input"
       onBlur={[Function]}
       onChange={[Function]}
       onFocus={[Function]}

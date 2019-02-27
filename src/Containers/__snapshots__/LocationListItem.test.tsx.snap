@@ -10,6 +10,7 @@ exports[`Item renders the location 1`] = `
   >
     <div
       className="MuiListItemText-root-46 LocationListItem-locationText-2"
+      id="location-name"
     >
       <span
         className="MuiTypography-root-52 MuiTypography-subheading-59 MuiListItemText-primary-49"
@@ -30,6 +31,7 @@ exports[`Item renders the location 1`] = `
         aria-label="Favourite"
         className="MuiButtonBase-root-103 MuiIconButton-root-97 LocationListItem-iconButton-6"
         disabled={false}
+        id="favourite-button"
         onBlur={[Function]}
         onClick={[Function]}
         onContextMenu={[Function]}

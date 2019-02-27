@@ -75,13 +75,13 @@ class LocationListItem extends Component<IProps> {
         return (
             <ListItem>
                 <Paper className={classes.root} elevation={1}>
-                    <ListItemText className={classes.locationText} primary={location.name}/>
+                    <ListItemText id={'location-name'} className={classes.locationText} primary={location.name}/>
                     <div
                         className={classNames(classes.temperatureText, { [classes.temperatureWarm]: this.props.location.temperature > 0, [classes.temperatureCold]: this.props.location.temperature <= 0 })}>{this.formatTemperature(location.temperature)}
                     </div>
                     <ListItemIcon>
                         <Tooltip title={isFavourite ? 'Unfavourite' : 'Favourite'} aria-label='Favourite' >
-                            <IconButton className={classes.iconButton} onClick={() => onFavouriteClicked(location)}>
+                            <IconButton id={'favourite-button'} className={classes.iconButton} onClick={() => onFavouriteClicked(location)}>
                                 {this.props.isFavourite ? <Favorite/> : <FavoriteBorderOutlined />}
                             </IconButton>
                         </Tooltip>
