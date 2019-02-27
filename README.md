@@ -19,7 +19,7 @@ Kääntää sovelluksen tuotantoon minifioituna /build-hakemistoon.<br>
 
 ## Tietoa ja käyttöohjeita
 
-* Kirjoita haluamasi kaupungin nimi hakuruutuun ja valitse sydämmestä sijainti suosikiksi
+* Kirjoita haluamasi kaupungin nimi hakuruutuun ja valitse sydämestä sijainti suosikiksi
 * Tukee openweathermapin sisältämiä kaupunkeja
 * Suosikit tallennetaan selaimen localstorageen palautettavaksi
 * Sovellus hakee uusimmat tiedot automaattisesti viiden minuutin välein
