@@ -49,6 +49,8 @@ export const removeFavourite: ActionCreator<RemoveFavouriteAction> = (location: 
 });
 
 export interface WeatherData {
+    name: string;
+    id: number;
     main: {
         temp: number;
     }
@@ -66,7 +68,7 @@ export const getTemperature = (id: string, cancelRequest?: () => boolean): Thunk
                     dispatch(getTemperatureFailure());
                     resolve();
                 }
-            }).then((data) => {
+            }).then((data: WeatherData) => {
                 let cancelled = false;
                 if(cancelRequest) {
                     cancelled = cancelRequest();
