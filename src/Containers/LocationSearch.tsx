@@ -28,7 +28,7 @@ interface IState {
 type Props = IStateProps & IProps & IDispatchProps;
 
 
-const styles = (theme: Theme) => createStyles({
+export const styles = (theme: Theme) => createStyles({
     root: {
         padding: '2px 4px',
         display: 'flex',
@@ -45,7 +45,7 @@ const styles = (theme: Theme) => createStyles({
 });
 
 
-class LocationSearch extends Component<Props, IState> {
+export class LocationSearch extends Component<Props, IState> {
     constructor(props: Props) {
         super(props);
         this.state = { inputValue: '' };
@@ -97,4 +97,5 @@ const mapDispatchToProps = (dispatch: ThunkDispatch<TemperatureState, {}, Temper
     }
 }
 
+export const StyledLocationSearch = withStyles(styles)(LocationSearch);
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(LocationSearch));
